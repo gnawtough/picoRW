@@ -11,12 +11,12 @@
 #define GYRO_XOUT_H 0x43
 
 // Function to initialize I2C
-void i2c_init() {
-    i2c_init(i2c0, 100 * 1000);
-    gpio_set_function(4, GPIO_FUNC_I2C);
-    gpio_set_function(5, GPIO_FUNC_I2C);
-    gpio_pull_up(4);
-    gpio_pull_up(5);
+void init_i2c() {
+    i2c_init(i2c0, 100 * 1000); // Initialize I2C communication
+    gpio_set_function(4, GPIO_FUNC_I2C); // Set GPIO 4 to I2C function
+    gpio_set_function(5, GPIO_FUNC_I2C); // Set GPIO 5 to I2C function
+    gpio_pull_up(4); // Enable internal pull-up resistor on GPIO 4
+    gpio_pull_up(5); // Enable internal pull-up resistor on GPIO 5
 }
 
 // Function to write a byte to the MPU-6050
@@ -42,7 +42,7 @@ int16_t read_16bit(uint8_t reg) {
 
 int main() {
     stdio_init_all();
-    i2c_init();
+    init_i2c();
 
     // Wake up the MPU-6050
     write_byte(PWR_MGMT_1, 0);
