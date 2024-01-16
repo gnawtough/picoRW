@@ -2,14 +2,14 @@ cmake_minimum_required(VERSION 3.12)
 
 include(pico_sdk_import.cmake)
 
-project(PicoRW)
+project(main)
 
 pico_sdk_init()
 
-add_executable(PicoRW
+add_executable(main
     main.cpp
 )
 
-target_link_libraries(PicoRW pico_stdlib hardware_i2c)
+target_link_libraries(main pico_stdlib hardware_i2c)
 
-pico_add_extra_outputs(PicoRW)
+pico_add_extra_outputs(main)
