@@ -79,11 +79,11 @@ int main() {
 
         // Print the readings
         printf("Accel X: %.2f g, Gyro Y: %.2f degrees/sec\n", ax_g, gy_dps);
-        
+
         // Play a tone based on accelerometer X value
-        //if (ax > 500) {
-        //    play_tone(440, 100); // Play a 440 Hz tone for 100 ms
-        //}
+        if (ax_g > 0.99) {
+            play_tone(440, 100); // Play a 440 Hz tone for 100 ms
+        }
 
         sleep_ms(500);
     }
