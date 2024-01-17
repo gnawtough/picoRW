@@ -73,13 +73,17 @@ int main() {
         int16_t ax = read_16bit(ACCEL_XOUT_H);
         int16_t gy = read_16bit(GYRO_XOUT_H);
 
+        // Conversion data 
+        float ax_g = ax / 16384.0; // Converts accel data based on default +-2g setting, scale: 16384 LSB/g force
+        float gy_dps = gy / 131.0; // Convert gyro data, scale factor +- 250dps, 131 LSB/(deg/s)
+
         // Print the readings
-        printf("Accel X: %d, Gyro Y: %d\n", ax, gy);
+        printf("Accel Raw X: %d, Accel Gs: %d, Gyro Raw Y: %d, Gyro deg/s: %d\n", ax, ax_g, gy, gy_dps);
 
         // Play a tone based on accelerometer X value
-        if (ax > threshold_value) {
-            play_tone(440, 100); // Play a 440 Hz tone for 100 ms
-        }
+        //if (ax > 500) {
+        //    play_tone(440, 100); // Play a 440 Hz tone for 100 ms
+        //}
 
         sleep_ms(500);
     }
