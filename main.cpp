@@ -78,8 +78,8 @@ int main() {
         float gy_dps = gy / 131.0; // Convert gyro data, scale factor +- 250dps, 131 LSB/(deg/s)
 
         // Print the readings
-        printf("Accel Raw X: %d, Accel Gs: %d, Gyro Raw Y: %d, Gyro deg/s: %d\n", ax, ax_g, gy, gy_dps);
-
+        printf("Accel X: %.2f g, Gyro Y: %.2f degrees/sec\n", ax_g, gy_dps);
+        
         // Play a tone based on accelerometer X value
         //if (ax > 500) {
         //    play_tone(440, 100); // Play a 440 Hz tone for 100 ms
