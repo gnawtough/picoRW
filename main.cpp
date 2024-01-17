@@ -10,6 +10,9 @@
 #define ACCEL_XOUT_H 0x3B
 #define GYRO_XOUT_H 0x43
 
+// Speaker GPIO
+#define SPEAKER_PIN 0
+
 // Function to initialize I2C
 void init_i2c() {
     i2c_init(i2c0, 100 * 1000); // Initialize I2C communication
@@ -40,9 +43,27 @@ int16_t read_16bit(uint8_t reg) {
     return (buffer[0] << 8) | buffer[1];
 }
 
+// Function to play sound
+void play_tone(uint frequency, uint duration_ms) {
+    uint half_period = 1000000 / frequency / 2;
+    uint64_t end_time = to_us_since_boot(get_absolute_time()) + duration_ms * 1000;
+
+    while (to_us_since_boot(get_absolute_time()) < end_time) {
+        gpio_put(SPEAKER_PIN, 1);
+        sleep_us(half_period);
+        gpio_put(SPEAKER_PIN, 0);
+        sleep_us(half_period);
+    }
+}
+
+
 int main() {
     stdio_init_all();
     init_i2c();
+
+    // Init speaker pin
+    gpio_init(SPEAKER_PIN);
+    gpio_set_dir(SPEAKER_PIN, GPIO_OUT);
 
     // Wake up the MPU-6050
     write_byte(PWR_MGMT_1, 0);
@@ -54,6 +75,11 @@ int main() {
 
         // Print the readings
         printf("Accel X: %d, Gyro Y: %d\n", ax, gy);
+
+        // Play a tone based on accelerometer X value
+        if (ax > threshold_value) {
+            play_tone(440, 100); // Play a 440 Hz tone for 100 ms
+        }
 
         sleep_ms(500);
     }
