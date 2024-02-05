@@ -82,7 +82,7 @@ int main() {
 
         // Play a tone based on accelerometer X value
         if (ax_g > 0.99) {
-            play_tone(440, 100); // Play a 440 Hz tone for 100 ms
+            play_tone(800, 100); // Play a 440 Hz tone for 100 ms
         }
 
         sleep_ms(500);
