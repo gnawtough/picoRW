@@ -69,16 +69,28 @@ int main() {
     write_byte(PWR_MGMT_1, 0);
 
     while (true) {
-        // Read accelerometer and gyroscope data
+        // Read accelerometer data for all axes
         int16_t ax = read_16bit(ACCEL_XOUT_H);
-        int16_t gy = read_16bit(GYRO_XOUT_H);
+        int16_t ay = read_16bit(ACCEL_XOUT_H + 2);
+        int16_t az = read_16bit(ACCEL_XOUT_H + 4);
+
+        // Read gyroscope data for all axes
+        int16_t gx = read_16bit(GYRO_XOUT_H);
+        int16_t gy = read_16bit(GYRO_XOUT_H + 2);
+        int16_t gz = read_16bit(GYRO_XOUT_H + 4);
 
         // Conversion data 
         float ax_g = ax / 16384.0; // Converts accel data based on default +-2g setting, scale: 16384 LSB/g force
-        float gy_dps = gy / 131.0; // Convert gyro data, scale factor +- 250dps, 131 LSB/(deg/s)
+        float ay_g = ay / 16384.0;
+        float az_g = az / 16384.0;
 
-        // Print the readings
-        printf("Accel X: %.2f g, Gyro Y: %.2f degrees/sec\n", ax_g, gy_dps);
+        float gx_dps = gx / 131.0; // Convert gyro data, scale factor +- 250dps, 131 LSB/(deg/s)
+        float gy_dps = gy / 131.0; 
+        float gz_dps = gz / 131.0;
+
+         // Print the readings
+        printf("Accel (g): X=%.2f, Y=%.2f, Z=%.2f, Gyro (degrees/sec): X=%.2f, Y=%.2f, Z=%.2f\n", 
+               ax_g, ay_g, az_g, gx_dps, gy_dps, gz_dps);
 
         // Play a tone based on accelerometer X value
         if (ax_g > 0.99) {
