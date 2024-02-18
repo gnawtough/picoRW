@@ -15,7 +15,11 @@ AS5600 Magnetic Encoder -- https://www.amazon.com/Teyleten-Robot-Precision-Induc
 
 ## WIRING
 TODO: make wiring diagram...
-both AS5600 and 6050 communicate on same bus, connect wires to same pins. SDAs together, SCLs together...
+both AS5600 and 6050 communicate on same bus, connect wires to same pins. 
+SDAs together pin6(GP4) bus
+SCLs together pin7(gp5) bus
+GND pin 38
+VCC pin 36
 
 ###
 working notes for me:
