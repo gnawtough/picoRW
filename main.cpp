@@ -29,8 +29,8 @@ void init_i2c() {
 
     gpio_set_function(8, GPIO_FUNC_I2C); // AS5600 the next lines will be same as 6050 but different pins
     gpio_set_function(9, GPIO_FUNC_I2C);
-    gpi0_pull_up(8);
-    gpi0_pull_up(9);
+    gpio_pull_up(8);
+    gpio_pull_up(9);
 }
 
 // Function to write a byte to the MPU-6050
