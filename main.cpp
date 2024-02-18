@@ -93,6 +93,9 @@ int main() {
         int16_t gy = read_16bit(GYRO_XOUT_H + 2);
         int16_t gz = read_16bit(GYRO_XOUT_H + 4);
 
+        // Read RAW_ANGLE data from AS5600
+        uint16_t raw_angle = read_as5600_angle();
+
         // Conversion data 
         float ax_g = ax / 16384.0; // Converts accel data based on default +-2g setting, scale: 16384 LSB/g force
         float ay_g = ay / 16384.0;
@@ -105,6 +108,8 @@ int main() {
          // Print the readings
         printf("Accel (g): X=%.2f, Y=%.2f, Z=%.2f, Gyro (degrees/sec): X=%.2f, Y=%.2f, Z=%.2f\n", 
                ax_g, ay_g, az_g, gx_dps, gy_dps, gz_dps);
+
+        printf("AS5600 Raw Angle: %u\n", raw_angle);
 
         // Play a tone based on accelerometer X value
         if (ax_g > 0.99) {
