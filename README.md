@@ -6,6 +6,12 @@ I have managed to get output over usb and read it with minicom
 
 Currently cmake disables UART connection and strictly enables USB communications.
 
+## Hardware
+
+Raspberry pi pico
+MPU 6050 Gyro
+AS5600 Magnetic Encoder -- https://www.amazon.com/Teyleten-Robot-Precision-Induction-Measurement/dp/B09LMB3PTZ
+
 
 ###
 working notes for me:

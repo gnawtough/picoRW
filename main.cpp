@@ -10,16 +10,27 @@
 #define ACCEL_XOUT_H 0x3B
 #define GYRO_XOUT_H 0x43
 
+// AS5600 I2C address
+#define AS5600_ADDR 0x36
+
+// AS5600 Registers
+#define AS5600_RAW_ANGLE 0x0C
+
 // Speaker GPIO
 #define SPEAKER_PIN 0
 
 // Function to initialize I2C
 void init_i2c() {
-    i2c_init(i2c0, 100 * 1000); // Initialize I2C communication
-    gpio_set_function(4, GPIO_FUNC_I2C); // Set GPIO 4 to I2C function
-    gpio_set_function(5, GPIO_FUNC_I2C); // Set GPIO 5 to I2C function
-    gpio_pull_up(4); // Enable internal pull-up resistor on GPIO 4
-    gpio_pull_up(5); // Enable internal pull-up resistor on GPIO 5
+    i2c_init(i2c0, 400 * 1000); // Initialize I2C communication
+    gpio_set_function(4, GPIO_FUNC_I2C); // Set GPIO 4 to I2C function 6050
+    gpio_set_function(5, GPIO_FUNC_I2C); // Set GPIO 5 to I2C function 6050
+    gpio_pull_up(4); // Enable internal pull-up resistor on GPIO 4 6050
+    gpio_pull_up(5); // Enable internal pull-up resistor on GPIO 5 6050
+
+    gpio_set_function(8, GPIO_FUNC_I2C); // AS5600 the next lines will be same as 6050 but different pins
+    gpio_set_function(9, GPIO_FUNC_I2C);
+    gpi0_pull_up(8);
+    gpi0_pull_up(9);
 }
 
 // Function to write a byte to the MPU-6050
