@@ -49,6 +49,14 @@ int16_t read_16bit(uint8_t reg) {
     return (buffer[0] << 8) | buffer[1];
 }
 
+// Function to read 12-bit value
+uint16_t read_as5600_angle() {
+    uint8_t buffer[2];
+    read_bytes(AS5600_RAW_ANGLE, buffer, 2);
+    uint16_t angle = ((uint16_t)buffer[0] << 8) | buffer[1];
+    angle &= 0x0FFF; // The AS5600 angle is 12 bits
+}
+
 // Function to play sound
 void play_tone(uint frequency, uint duration_ms) {
     uint half_period = 1000000 / frequency / 2;
