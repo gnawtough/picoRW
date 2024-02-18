@@ -13,6 +13,10 @@ MPU 6050 Gyro
 AS5600 Magnetic Encoder -- https://www.amazon.com/Teyleten-Robot-Precision-Induction-Measurement/dp/B09LMB3PTZ
 
 
+## WIRING
+TODO: make wiring diagram...
+both AS5600 and 6050 communicate on same bus, connect wires to same pins. SDAs together, SCLs together...
+
 ###
 working notes for me:
 
