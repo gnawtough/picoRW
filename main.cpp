@@ -26,11 +26,6 @@ void init_i2c() {
     gpio_set_function(5, GPIO_FUNC_I2C); // Set GPIO 5 to I2C function 6050
     gpio_pull_up(4); // Enable internal pull-up resistor on GPIO 4 6050
     gpio_pull_up(5); // Enable internal pull-up resistor on GPIO 5 6050
-
-    gpio_set_function(8, GPIO_FUNC_I2C); // AS5600 the next lines will be same as 6050 but different pins
-    gpio_set_function(9, GPIO_FUNC_I2C);
-    gpio_pull_up(8);
-    gpio_pull_up(9);
 }
 
 // Function to write a byte to the MPU-6050
