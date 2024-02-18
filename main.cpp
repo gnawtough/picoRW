@@ -55,6 +55,7 @@ uint16_t read_as5600_angle() {
     read_bytes(AS5600_RAW_ANGLE, buffer, 2);
     uint16_t angle = ((uint16_t)buffer[0] << 8) | buffer[1];
     angle &= 0x0FFF; // The AS5600 angle is 12 bits
+    return angle; 
 }
 
 // Function to play sound
