@@ -36,26 +36,26 @@ void write_byte(uint8_t reg, uint8_t data) {
     i2c_write_blocking(i2c0, MPU6050_ADDR, buf, 2, false);
 }
 
-// Function to read bytes from the MPU-6050
-void read_bytes(uint8_t reg, uint8_t *buffer, uint8_t length) {
-    i2c_write_blocking(i2c0, MPU6050_ADDR, &reg, 1, true);
-    i2c_read_blocking(i2c0, MPU6050_ADDR, buffer, length, false);
+// Function to read bytes from a generic device over I2C
+void read_bytes(uint8_t addr, uint8_t reg, uint8_t *buffer, uint8_t length) {
+    i2c_write_blocking(i2c0, addr, &reg, 1, true); // Write the register address to read from
+    i2c_read_blocking(i2c0, addr, buffer, length, false); // Read the data into buffer
 }
 
-// Function to read a 16-bit value
-int16_t read_16bit(uint8_t reg) {
+// Reading a 16-bit value from MPU-6050
+int16_t read_16bit_mpu6050(uint8_t reg) {
     uint8_t buffer[2];
-    read_bytes(reg, buffer, 2);
+    read_bytes(MPU6050_ADDR, reg, buffer, 2); // Updated call with MPU6050_ADDR
     return (buffer[0] << 8) | buffer[1];
 }
 
-// Function to read 12-bit value
+// Reading the 12-bit angle value from AS5600
 uint16_t read_as5600_angle() {
     uint8_t buffer[2];
-    read_bytes(AS5600_RAW_ANGLE, buffer, 2);
+    read_bytes(AS5600_ADDR, AS5600_RAW_ANGLE, buffer, 2); // Updated call with AS5600_ADDR
     uint16_t angle = ((uint16_t)buffer[0] << 8) | buffer[1];
     angle &= 0x0FFF; // The AS5600 angle is 12 bits
-    return angle; 
+    return angle;
 }
 
 // Function to play sound
@@ -85,14 +85,14 @@ int main() {
 
     while (true) {
         // Read accelerometer data for all axes
-        int16_t ax = read_16bit(ACCEL_XOUT_H);
-        int16_t ay = read_16bit(ACCEL_XOUT_H + 2);
-        int16_t az = read_16bit(ACCEL_XOUT_H + 4);
+        int16_t ax = read_16bit_mpu6050(ACCEL_XOUT_H);
+        int16_t ay = read_16bit_mpu6050(ACCEL_XOUT_H + 2);
+        int16_t az = read_16bit_mpu6050(ACCEL_XOUT_H + 4);
 
         // Read gyroscope data for all axes
-        int16_t gx = read_16bit(GYRO_XOUT_H);
-        int16_t gy = read_16bit(GYRO_XOUT_H + 2);
-        int16_t gz = read_16bit(GYRO_XOUT_H + 4);
+        int16_t gx = read_16bit_mpu6050(GYRO_XOUT_H);
+        int16_t gy = read_16bit_mpu6050(GYRO_XOUT_H + 2);
+        int16_t gz = read_16bit_mpu6050(GYRO_XOUT_H + 4);
 
         // Read RAW_ANGLE data from AS5600
         uint16_t raw_angle = read_as5600_angle();
