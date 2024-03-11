@@ -10,12 +10,6 @@
 #define ACCEL_XOUT_H 0x3B
 #define GYRO_XOUT_H 0x43
 
-// AS5600 I2C address
-#define AS5600_ADDR 0x36
-
-// AS5600 Registers
-#define AS5600_RAW_ANGLE 0x0C
-
 // Speaker GPIO
 #define SPEAKER_PIN 0
 
@@ -47,15 +41,6 @@ int16_t read_16bit_mpu6050(uint8_t reg) {
     uint8_t buffer[2];
     read_bytes(MPU6050_ADDR, reg, buffer, 2); // Updated call with MPU6050_ADDR
     return (buffer[0] << 8) | buffer[1];
-}
-
-// Reading the 12-bit angle value from AS5600
-uint16_t read_as5600_angle() {
-    uint8_t buffer[2];
-    read_bytes(AS5600_ADDR, AS5600_RAW_ANGLE, buffer, 2); // Updated call with AS5600_ADDR
-    uint16_t angle = ((uint16_t)buffer[0] << 8) | buffer[1];
-    angle &= 0x0FFF; // The AS5600 angle is 12 bits
-    return angle;
 }
 
 // Function to play sound
@@ -94,9 +79,6 @@ int main() {
         int16_t gy = read_16bit_mpu6050(GYRO_XOUT_H + 2);
         int16_t gz = read_16bit_mpu6050(GYRO_XOUT_H + 4);
 
-        // Read RAW_ANGLE data from AS5600
-        uint16_t raw_angle = read_as5600_angle();
-
         // Conversion data 
         float ax_g = ax / 16384.0; // Converts accel data based on default +-2g setting, scale: 16384 LSB/g force
         float ay_g = ay / 16384.0;
@@ -109,8 +91,6 @@ int main() {
          // Print the readings
         printf("Accel (g): X=%.2f, Y=%.2f, Z=%.2f, Gyro (degrees/sec): X=%.2f, Y=%.2f, Z=%.2f\n", 
                ax_g, ay_g, az_g, gx_dps, gy_dps, gz_dps);
-
-        printf("AS5600 Raw Angle: %u\n", raw_angle);
 
         // Play a tone based on accelerometer X value
         if (ax_g > 0.99) {
